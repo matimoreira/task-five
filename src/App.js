@@ -21,7 +21,7 @@ class App extends React.Component {
 	handleAddBrand = async (brand) => {
 
 		let body = {
-			'id': brand.id,
+			'id': parseInt(brand.id),
 			'name': brand.name,
 			'enterpriseid': 1,
 			'active': brand.active,
@@ -30,11 +30,12 @@ class App extends React.Component {
 
 		let settings = {
 			method: 'POST',
-  			body: body,
+  			body: JSON.stringify(body),
   			headers:{
     			'Content-Type': 'application/json'
   			}
   		}
+  		console.log(body);
 		let response = await fetch(`https://localhost:5001/api/Vehiclebrand`, settings)
 		console.log(response);
 		console.log(`elemento a agregar: ${brand}`);
