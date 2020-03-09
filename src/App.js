@@ -18,6 +18,29 @@ class App extends React.Component {
 		this.setState({brands: newsBrands})
 	}
 
+	handleAddBrand = async (brand) => {
+
+		let body = {
+			'id': brand.id,
+			'name': brand.name,
+			'enterpriseid': 1,
+			'active': brand.active,
+			'vehiclemodel': []
+		}
+
+		let settings = {
+			method: 'POST',
+  			body: body,
+  			headers:{
+    			'Content-Type': 'application/json'
+  			}
+  		}
+		let response = await fetch(`https://localhost:5001/api/Vehiclebrand`, settings)
+		console.log(response);
+		console.log(`elemento a agregar: ${brand}`);
+		this.setState({brands: [...this.state.brands, brand]})
+	}
+
 	async componentDidMount() {
 		let response = await fetch("https://localhost:5001/api/Vehiclebrand");
 		let json = await response.json();
@@ -27,7 +50,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="container mt-5">
-				<Header title={this.title} rows={this.state.brands} deleteBrand={this.handleDeleteBrand}></Header>
+				<Header title={this.title} rows={this.state.brands} deleteBrand={this.handleDeleteBrand} addBrand={this.handleAddBrand}></Header>
 			</div>
 		);
 	}
