@@ -12,7 +12,7 @@ class App extends React.Component {
 	newsBrands = {};
 
 	handleDeleteBrand = async (index, id) => {
-		let response = await fetch(`https://localhost:5001/api/Vehiclebrand/${id}`, {method: 'DELETE'})
+		let response = await fetch(`https://localhost:5001/api/Vehiclebrand/DeleteVehiclebrand/${id}`, {method: 'DELETE'})
 		console.log(response);
 		console.log(`Id del elemento a eliminar: ${id}`);
 		this.newsBrands = this.state.brands;
@@ -27,7 +27,11 @@ class App extends React.Component {
 			${end}`
 			);
 		let json = await response.json();
-		this.setState( ( json === '' ? { brands: ['Error'] } : { brands: json, page: start / this.state.pagination.pageSize} ) );
+		console.log(json);
+		let pagination = this.state.pagination;
+		pagination.page = start;
+		this.setState( ( json === '' ? { brands: ['Error'] } : { brands: json, pagination: pagination} ) );
+		console.log('handlePaginationBrand ' + JSON.stringify(this.state.pagination));
 
 	}
 
@@ -37,8 +41,14 @@ class App extends React.Component {
 		`https://localhost:5001/api/Vehiclebrand/GetTotalPage/
 		${this.state.pagination.pageSize}`);
 		let json = await response.json();
+		let pagination = this.state.pagination;
+
+		pagination.pageTotal = json;
+
+		console.log(pagination);
 		console.log(json);
-		this.setState( ( json === '' ? { pageTotal: ['Error'] } : { pageTotal: json } ) );
+		this.setState( ( json === '' ? { pageTotal: ['Error'] } : { pagination:  pagination } ) );
+		console.log(`this.state.pagination.pageTotal ${this.state.pagination.pageTotal}`);
 	}
 
 

@@ -4,6 +4,7 @@ import Pagination from './../pagination/Pagination';
 
 const Table = (props) => {
 
+	
 
 	const listOfBrand = props.rows.map((row, i) => {
 		return <Brand row={row} key={i} id={i} deleteBrand={props.deleteBrand}></Brand>

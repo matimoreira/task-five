@@ -3,16 +3,28 @@ import React from 'react';
 const Pagination = (props) => {
 
 
-	const listOfPages = (props) => {
-		console.log('caca');
+	const pages = Array.from({length: props.pageTotal}, (v, i) => i);
+	console.log(props);
+	console.log(pages);
+	const listOfPages = pages.map((value, i) => {
+		return( 
+			<li className="page-item">
+				<a onClick={() => {props.paginationBrand((i), props.pageSize)} } className="page-link" href="#">{i+1}</a>
+			</li>
+		)
+	});
+
+	/*= (props) => {
+		console.log(props.pageTotal);
 		for (var i = 0; i < props.pageTotal; i++) {
+			console.log(i);
 			return( 
 				<li className="page-item">
 					<a onClick={() => {props.paginationBrand(i*props.pageSize, props.pageSize)} } className="page-link" href="#">i</a>
 				</li>
-				)
+			)
 		}
-	};
+	};*/
 
 	return(
 		<nav className="d-flex justify-content-center">
