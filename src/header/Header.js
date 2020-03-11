@@ -13,7 +13,13 @@ const Header = (props) => {
 			<div className="col-md-6">
 				<h3 className="display-5">{props.title}</h3>
 				<hr/>
-				<Table rows ={props.rows} deleteBrand={props.deleteBrand}></Table>
+				<Table 
+					rows ={props.rows} deleteBrand={props.deleteBrand}
+					paginationBrand={props.paginationBrand}
+					pageTotal={props.pageTotal}
+					pageSize={props.pageSize}
+					page={props.page}>
+				</Table>
 			</div>
 			
 		</div>

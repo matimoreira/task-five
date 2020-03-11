@@ -7,7 +7,7 @@ class App extends React.Component {
 	title = 'Marcas';
 
 
-	state = {brands: [{id: 1,marca: 'Fiat',estado: 1}]};
+	state = {brands: [{id: 1, marca: 'Fiat', estado: 1}], pagination: {page: 0, pageSize: 5, pageTotal: 1}};
 
 	newsBrands = {};
 
@@ -20,10 +20,25 @@ class App extends React.Component {
 		this.setState({brands: this.newsBrands})
 	}
 
-	handlePaginationBrand = async (start, end) =>{
-		this.newsBrands = this.state.brands;
-		this.newsBrands.filter((value, index, array) => { return ( index > start && end < index ) });
-		this.setState({brands: this.newsBrands})
+	handlePaginationBrand = async (start, end) => {
+		let response = await fetch(
+			`https://localhost:5001/api/Vehiclebrand/GetVehiclebrand/
+			${start}/
+			${end}`
+			);
+		let json = await response.json();
+		this.setState( ( json === '' ? { brands: ['Error'] } : { brands: json, page: start / this.state.pagination.pageSize} ) );
+
+	}
+
+
+	handleGetTotalPage = async () => {
+		let response = await fetch(
+		`https://localhost:5001/api/Vehiclebrand/GetTotalPage/
+		${this.state.pagination.pageSize}`);
+		let json = await response.json();
+		console.log(json);
+		this.setState( ( json === '' ? { pageTotal: ['Error'] } : { pageTotal: json } ) );
 	}
 
 
@@ -53,15 +68,23 @@ class App extends React.Component {
 	}
 
 	async componentDidMount() {
-		let response = await fetch("https://localhost:5001/api/Vehiclebrand");
-		let json = await response.json();
-		this.setState( ( json === '' ? { brands: ['Error'] } : { brands: json } ) );
+		this.handlePaginationBrand(this.state.pagination.page, this.state.pagination.pageSize);
+		this.handleGetTotalPage();
 	}
 
 	render() {
 		return (
 			<div className="container mt-5">
-				<Header title={this.title} rows={this.state.brands} deleteBrand={this.handleDeleteBrand} addBrand={this.handleAddBrand}></Header>
+				<Header 
+					title={this.title}
+					rows={this.state.brands}
+					deleteBrand={this.handleDeleteBrand}
+					addBrand={this.handleAddBrand}
+					paginationBrand={this.handlePaginationBrand}
+					pageTotal={this.state.pagination.pageTotal}
+					pageSize={this.state.pagination.pageSize}
+					page={this.state.pagination.page}>
+				</Header>
 			</div>
 		);
 	}

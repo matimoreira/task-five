@@ -35,5 +35,4 @@ class Form extends React.Component {
 		);
 	}
 }
-{/*this.state.active === '1' ? 'checked' : ''*/}
 export default Form;

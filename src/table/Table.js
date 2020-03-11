@@ -1,16 +1,13 @@
 import React from 'react';
 import Brand from './../brand/Brand';
+import Pagination from './../pagination/Pagination';
 
 const Table = (props) => {
-
-	const elements = 5;
 
 
 	const listOfBrand = props.rows.map((row, i) => {
 		return <Brand row={row} key={i} id={i} deleteBrand={props.deleteBrand}></Brand>
-	})
-
-	const pages = listOfBrand.length / elements;
+	});
 
 	return(
 		<div className='rounded border border-light shadow'>
@@ -24,14 +21,19 @@ const Table = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{ listOfBrand.filter((value, index, array) => { return index < 5; }) }
+					{ listOfBrand }
 				</tbody>
 			</table>
-			{/*<Pagination pages={pages} ></Pagination>*/}
+			<Pagination
+				paginationBrand={props.paginationBrand}
+				pageSize={props.pageSize}
+				page={props.page}
+				pageTotal={props.pageTotal}>
+			</Pagination>
 
 
 
-			<nav className="d-flex justify-content-center">
+			{/*<nav className="d-flex justify-content-center">
 				<ul className="pagination">
 					<li className="page-item">
 						<a className="page-link text-dark" href="#" aria-label="Previous">
@@ -53,7 +55,7 @@ const Table = (props) => {
 						</a>
 					</li>
 				</ul>
-			</nav>
+			</nav>*/}
 		</div>
 	);
 }
