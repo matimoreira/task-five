@@ -15,15 +15,15 @@ class App extends React.Component {
 		let response = await fetch(`https://localhost:5001/api/Vehiclebrand/${id}`, {method: 'DELETE'})
 		console.log(response);
 		console.log(`Id del elemento a eliminar: ${id}`);
-		newsBrands = this.state.brands;
-		newsBrands.splice(index, 1);
-		this.setState({brands: newsBrands})
+		this.newsBrands = this.state.brands;
+		this.newsBrands.splice(index, 1);
+		this.setState({brands: this.newsBrands})
 	}
 
 	handlePaginationBrand = async (start, end) =>{
-		newsBrands = this.state.brands;
-		newsBrands.filter((value, index, array) => { return ( index > start && end < index ) });
-		this.setState({brands: newsBrands})
+		this.newsBrands = this.state.brands;
+		this.newsBrands.filter((value, index, array) => { return ( index > start && end < index ) });
+		this.setState({brands: this.newsBrands})
 	}
 
 
